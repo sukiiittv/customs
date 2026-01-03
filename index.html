@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>1v1 Queue - Streamer View</title>
+  <style>
+    body {
+      margin:0;
+      background:#121212;
+      color:#fff;
+      font-family: 'Arial', sans-serif;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      height:100vh;
+    }
+    h1 {
+      margin:20px 0;
+      font-size:3em;
+      color:#00ff99;
+      text-shadow: 2px 2px 4px #000;
+    }
+    #queue {
+      width:80%;
+      margin-top:20px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+    li {
+      list-style:none;
+      margin:10px 0;
+      padding:15px 25px;
+      font-size:2em;
+      background:#222;
+      border-left:5px solid #00ff99;
+      border-radius:8px;
+      width:100%;
+      text-align:center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+      transition: transform 0.2s;
+    }
+    li:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+<h1>1v1 Queue</h1>
+<ul id="queue"></ul>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<script>
+ // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAvozIfZ7lzhsyVrEhBY5XHB7TUVjftdYE",
+  authDomain: "custom-queue.firebaseapp.com",
+  databaseURL: "https://custom-queue-default-rtdb.firebaseio.com",
+  projectId: "custom-queue",
+  storageBucket: "custom-queue.firebasestorage.app",
+  messagingSenderId: "540277189278",
+  appId: "1:540277189278:web:e558e40a93d4853687698f",
+  measurementId: "G-FE3CK7K6Y1"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+
+  // Display queue live
+  const queueList = document.getElementById('queue');
+  queueRef.on('value', snapshot => {
+    queueList.innerHTML = '';
+    if (!snapshot.exists()) return;
+    snapshot.forEach(child => {
+      const li = document.createElement('li');
+      li.textContent = child.val();
+      queueList.appendChild(li);
+    });
+  });
+</script>
+
+</body>
+</html>
